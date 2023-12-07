@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4 text-white">Clientes</h2>
+
+        <!-- Botón para crear un nuevo producto -->
+        <div class="text-center mb-4">
+            <a href="{% url 'create_client' %}" class="btn btn-primary">Nuevo cliente</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped bg-light text-light">
+                <thead class="table-dark">
+                <tr>
+                    <th>Nombre completo</th>
+                    <th>Numero de telefono</th>
+                    <th>RFC</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for Client in clients %}
+                    <tr>
+                        <td class="text-black">{{ Client.name }}{{ Client.second_name }}{{ Client.three_name }}</td>
+                        <td class="text-black">{{ Client.phone_number }}</td>
+                        <td class="text-black">{{ Client.RFC }}</td>
+                        <td>
+                            <!-- Agrega un formulario para enviar la solicitud de eliminación -->
+                            <form method="post" action="{% url 'delete_client' Client.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
