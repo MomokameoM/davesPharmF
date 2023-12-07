@@ -97,28 +97,35 @@ def products_no_prescription(request):
 @login_required
 def create_product(request):
     if request.method == "GET":
-        return render(request, "create_product.html", {"form": ProductForm})
-    else:
+        return render(request, "create_product.html")
+    elif request.method == "POST":
         try:
-            form = ProductForm(request.POST)
-            if form.is_valid():
-                new_product = form.save(commit=False)
-                new_product.user = request.user
-                new_product.save()
-                return redirect("products")
-            else:
-                return render(
-                    request,
-                    "create_product.html",
-                    {"form": form, "error": "Error al crear el producto"},
-                )
+            name = request.POST.get('name')
+            lot = request.POST.get('lot')
+            description = request.POST.get('description')
+            generic = bool(request.POST.get('generic'))
+            unit_price = float(request.POST.get('unit_price'))
+            expiration_date = request.POST.get('expiration_date')
+
+            # Guardar los datos en la base de datos
+            new_product = Product.objects.create(
+                name=name,
+                lot=lot,
+                description=description,
+                generic=generic,
+                unit_price=unit_price,
+                expiration_date=expiration_date,
+                
+            )
+
+            return redirect("products")
         except ValueError:
             return render(
                 request,
                 "create_product.html",
-                {"form": ProductForm, "error": "Error al crear el producto"},
+                {"error": "Error al crear el producto"},
             )
-
+            
 @login_required
 def delete_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4 text-white">Notas de Remisión</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped bg-light text-light">
+                <thead class="table-dark">
+                <tr>
+                    <th>Proveedor</th>
+                    <th>Tipo de Pago</th>
+                    <th>Hora de Orden</th>
+                    <th>Fecha de Orden</th>
+                    <th>Hora de Entrega</th>
+                    <th>Fecha de Entrega</th>
+                    <th>Subtotal</th>
+                    <th>Cantidad</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for remission_note in remission_notes %}
+                    <tr>
+                        <td>{{ remission_note.provider.name }}</td>
+                        <td>{{ remission_note.get_payment_type_display }}</td>
+                        <td>{{ remission_note.hour_order }}</td>
+                        <td>{{ remission_note.day_order }}</td>
+                        <td>{{ remission_note.hour_delivery }}</td>
+                        <td>{{ remission_note.day_delivery }}</td>
+                        <td>${{ remission_note.subtotal }}</td>
+                        <td>{{ remission_note.amount }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <strong>Productos del proveedor:</strong>
+                            <ul>
+                                {% for product in remission_note.provider.product_sold.all %}
+                                    <li class="text-black">{{ product.name }} - Cantidad: {{ remission_note.amount }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
