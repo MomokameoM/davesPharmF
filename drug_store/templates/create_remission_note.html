@@ -1,8 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
 <form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button>Crear</button>
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center" style="font-weight: bold;">
+
+                            <h3 class="mb-5" style="font-size: 5vh;font-weight: bold;">Añadir nota</h3>
+                            <div class="form-outline mb-4">
+                                <select name="payment_type" id="id_payment_type">
+                                    <option value="tarjeta" selected="">Tarjeta</option>
+
+                                    <option value="efectivo">Efectivo</option>
+
+                                </select>
+                                <label class="form-label" for="typeEmailX-2">Tipo de pago</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input type="text" name="hour_delivery" required="" id="id_hour_delivery">
+                                <label class="form-label" for="typeEmailX-2">Hora de entrega</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" name="day_delivery" required="" id="id_day_delivery">
+                                <label class="form-label" for="typeEmailX-2">Fecha de entreha</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input type="number" name="amount" required="" id="id_amount">
+                                <label class="form-label">Cantidad</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <select name="provider" required="" id="id_provider" style="width: 90%">
+                                    <option value="" selected="">---------</option>
+
+                                    <option value="1">Erick Mendoza - Productos: ASPIRINA ANALGÉSICO 100 TABLETAS Cantidad 25 - No Genérico - $95.00 - Sin Receta</option>
+
+                                </select>
+                                <label class="form-label">Proveedor</label>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit" style=" font-weight: bold;">Añadir</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </form>
 {% endblock content %}

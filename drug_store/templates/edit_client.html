@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <section class="vh-100">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                            <div class="card-body p-5 text-center" style="font-weight: bold;">
+
+                                <h3 class="mb-5" style="font-size: 5vh;font-weight: bold;">Editar cliente</h3>
+                                <div class="form-outline mb-4">
+                                    <input  id="typeEmailX-2" name="name" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typeEmailX-2">Nombre</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input  id="typeEmailX-2" name="second_name" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typeEmailX-2">Apellido Paterno</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input  id="typeEmailX-2" name="three_name" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typeEmailX-2">Apellido Materno</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input  id="typeEmailX-2" name="phone_number" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typeEmailX-2">Telefono</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input  id="typeEmailX-2" name="rfc" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typeEmailX-2">RFC</label>
+                                </div>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" style=" font-weight: bold;">Editar</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </form>
+{% endblock content %}
