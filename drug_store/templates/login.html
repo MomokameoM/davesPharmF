@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+{% block content %}
+<form method="POST" action="/products/">
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center" style="font-weight: bold;">
+
+                            <h3 class="mb-5" style="font-size: 5vh;font-weight: bold;">Iniciar sesion</h3>
+                            {% load static %}
+                            <img src="{% static 'login.png' %}" style="width: 40%; margin-bottom: 1vh">
+                            <div class="form-outline mb-4">
+                                <input type="email" id="typeEmailX-2" name="username" class="form-control form-control-lg" />
+                                <label class="form-label" for="typeEmailX-2">Nombre de usuario</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" />
+                                <label class="form-label" for="typePasswordX-2">Contraseña</label>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit" style=" font-weight: bold;">Iniciar</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<button>Enviar</button>
+</form>
+{% endblock content %}
+
+
