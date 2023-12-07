@@ -3,6 +3,12 @@
 {% block content %}
   <div class="container mt-4">
     <h2 class="text-center mb-4 text-white">Lista de Productos</h2>
+
+    <!-- Botón para crear un nuevo producto -->
+    <div class="text-center mb-4">
+      <a href="{% url 'create_product' %}" class="btn btn-primary">Nuevo Producto</a>
+    </div>
+
     <div class="table-responsive">
       <table class="table table-bordered table-striped bg-light text-light">
         <thead class="table-dark">
@@ -17,21 +23,29 @@
             <th>Prescripción</th>
             <th>Precio Unitario</th>
             <th>Cantidad</th>
+            <th>Acciones</th> <!-- Nueva columna para acciones -->
           </tr>
         </thead>
         <tbody>
           {% for product in products %}
             <tr>
-              <td>{{ product.name }}</td>
-              <td>{{ product.lot }}</td>
-              <td>{{ product.purchase_date }}</td>
-              <td>{{ product.expiration_date }}</td>
-              <td>{{ product.description }}</td>
-              <td>{% if product.generic %} Sí {% else %} No {% endif %}</td>
-              <td>{{ product.get_administration_display }}</td>
-              <td>{% if product.prescription %} Sí {% else %} No {% endif %}</td>
-              <td>${{ product.unit_price }}</td>
-              <td>{{ product.stock }}</td>
+              <td class="text-black">{{ product.name }}</td>
+              <td class="text-black">{{ product.lot }}</td>
+              <td class="text-black">{{ product.purchase_date }}</td>
+              <td class="text-black">{{ product.expiration_date }}</td>
+              <td class="text-black">{{ product.description }}</td>
+              <td class="text-black">{% if product.generic %} Sí {% else %} No {% endif %}</td>
+              <td class="text-black">{{ product.get_administration_display }}</td>
+              <td class="text-black">{% if product.prescription %} Sí {% else %} No {% endif %}</td>
+              <td class="text-black">${{ product.unit_price }}</td>
+              <td class="text-black">{{ product.stock }}</td>
+              <td>
+                <!-- Agrega un formulario para enviar la solicitud de eliminación -->
+                <form method="post" action="{% url 'delete_product' product.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
