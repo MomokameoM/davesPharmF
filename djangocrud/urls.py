@@ -24,7 +24,6 @@ urlpatterns = [
     path("logout/", views.signout, name="logout"),
     path("signin/", views.signin, name="signin"),
     path("products/", views.get_products, name="products"),
-    path("products/generic/false", views.get_products_no_generics, name="products"),
     path("products/create/", views.create_product, name="create_product"),
     path("products/generic/true", views.get_products_generics, name="products_generic"),
     path("products/delete/<int:product_id>/", views.delete_product, name="delete_product"),
