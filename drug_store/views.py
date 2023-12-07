@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from .models import (
@@ -68,6 +69,11 @@ def signup(request):
             "register.html",
             {"error": "Las contraseñas no coinciden."},
         )
+
+@login_required
+def get_bill(request):
+    bills = Bill.objects.all()
+    return render(request, "bills.html", {"bills": bills})
 
 @login_required
 def get_products(request):
@@ -201,88 +207,47 @@ def get_provideers(request):
 
 @login_required
 def create_bill(request):
-    if request.method == "GET":
-        return render(request, "create_bill.html", {"form": BillForm})
-    else:
-        try:
-            form = BillForm(request.POST)
-            if form.is_valid():
-                form.save()
-                redirect("bills")
-            else:
-                render(request, "create_bill.html", {"error": "Error al factura", "form": BillForm})
-        except ValueError:
-            return render(request, "create_bill.html", {"form": BillForm, "error": "Error al crear factura"})
-        
-@login_required
-def get_bill(request):
-    bills = Bill.objects.all()
-    return render(request, "bills.html", {"bills":bills})
+    clients = Client.objects.all()  # Obtén la lista de clientes
+    sale_details = SaleDetails.objects.all()  # Obtén todos los detalles de la venta
 
-def edit_bill(request, bill_id):
-    if request.method == "GET":
-        bill = get_object_or_404(
-                Bill,
-                pk=bill_id
-        )
-        form = RemessionNoteForm(instance=bill)
-        return render(
-            request,
-            "bill_details.html",
-            {"bill": bill, "form": form},
-        )
-    else:
+    if request.method == "POST":
         try:
-            bill = get_object_or_404(
-                Bill,
-                pk=bill_id,
-            )
-            form = Bill(request.POST, instance=bill)
-            form.save()
-            return redirect("bill")
-        except ValueError:
-            return render(
-                request,
-                "bill_details.html",
-                {"bill": bill, "form": form, "error": "Error al editar la factura"},
-            )
+            rfc_client_id = request.POST.get("rfc_client_ic")
+            sale_date_str = request.POST.get("sale_date")
             
-@login_required
-def get_clients(request):
-    clients = Client.objects.all()
-    return render(request, "clients.html", {"clients": clients})
-
-@login_required
-def create_client(request):
-    if request.method == "GET":
-        return render(request, "create_client.html", {"form": ClientForm})
-    else:
-        try:
-            form = ClientForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect("clients")
+            # Verificar si sale_date_str es None o está vacío
+            if sale_date_str:
+                # Convertir la cadena de fecha a un objeto de fecha
+                sale_date = datetime.strptime(sale_date_str, "%Y-%m-%d").date()
             else:
-                return render(request, "create_client.html", {"error": "Error al crear el cliente", "form": ClientForm})
-        except ValueError:
-            return render(request, "create_client.html", {"form": ClientForm, "error": "Error al crear el cliente"})
+                sale_date = None
 
-@login_required
-def edit_client(request, client_id):
-    client = get_object_or_404(Client, pk=client_id)
-    if request.method == "GET":
-        form = ClientForm(instance=client)
-        return render(request, "edit_client.html", {"form": form, "client": client})
-    else:
-        try:
-            form = ClientForm(request.POST, instance=client)
-            if form.is_valid():
-                form.save()
-                return redirect("clients")
-            else:
-                return render(request, "edit_client.html", {"error": "Error al editar el cliente", "form": form, "client": client})
+            quantity_sold = float(request.POST.get("quantity_sold", 0))
+            subtotal = float(request.POST.get("subtotal", 0))
+            unit_price = float(request.POST.get("unit_price", 0))
+
+            # Obtener el objeto Client usando el ID proporcionado
+            client = Client.objects.get(id=rfc_client_id)
+
+            # Crear la factura utilizando el objeto Client y otros datos
+            bill = Bill.objects.create(
+                rfc_client=client,
+                sale_date=sale_date,
+                quantity_sold=quantity_sold,
+                subtotal=subtotal,
+                unit_price=unit_price
+            )
+
+            # Guardar la instancia de Bill en la base de datos
+            bill.save()
+
+            return redirect("bills")
         except ValueError:
-            return render(request, "edit_client.html", {"form": form, "error": "Error al editar el cliente", "client": client})
+            return render(request, "create_bill.html", {"error": "Error al crear factura", "clients": clients, "sale_details": sale_details})
+    else:
+        return render(request, "create_bill.html", {"clients": clients, "sale_details": sale_details})
+
+
 
 @login_required
 def delete_client(request, client_id):
@@ -290,7 +255,12 @@ def delete_client(request, client_id):
     if request.method == "POST":
         client.delete()
         return redirect("clients")
-    
+
+@login_required
+def get_clients(request):
+    clients = Client.objects.all()
+    return render(request, "clients.html", {"clients": clients})
+
 @login_required
 def get_sale_details(request):
     sale_details = SaleDetails.objects.order_by('-subtotal')

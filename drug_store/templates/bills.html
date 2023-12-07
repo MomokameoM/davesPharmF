@@ -4,10 +4,6 @@
     <div class="container mt-4">
         <h2 class="text-center mb-4 text-white">Facturas</h2>
 
-        <!-- Botón para crear una nueva factura -->
-        <div class="text-center mb-4">
-            <a href="{% url 'create_bill' %}" class="btn btn-primary">Crear Factura</a>
-        </div>
 
         <div class="table-responsive">
             <table class="table table-bordered table-striped bg-light text-light">
@@ -15,7 +11,6 @@
                 <tr>
                     <th>Cliente RFC</th>
                     <th>Detalles de Venta</th>
-                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,10 +36,6 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-                        </td>
-                        <td>
-                            <!-- Botón para editar la factura -->
-                            <a href="{% url 'edit_bill' bill.id %}" class="btn btn-success btn-sm">Editar</a>
                         </td>
                     </tr>
                 {% endfor %}

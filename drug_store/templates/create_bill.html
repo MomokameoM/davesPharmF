@@ -10,27 +10,26 @@
                             <div class="card-body p-5 text-center" style="font-weight: bold;">
 
                                 <h3 class="mb-5" style="font-size: 5vh;font-weight: bold;">Añadir factura</h3>
+                                
                                 <div class="form-outline mb-4">
-                                    <input  name="rfc_client_ic" class="form-control form-control-lg" />
-                                    <label class="form-label" >RFC Cliente</label>
+                                    <label for="id_rfc_client">Cliente RFC</label>
+                                    <select name="rfc_client" class="form-select form-select-lg" id="id_rfc_client" required>
+                                        {% for client in clients %}
+                                            <option value="{{ client.id }}">{{ client.name }} {{ client.second_name }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
+                                
                                 <div class="form-outline mb-4">
-                                    <input  name="sale_date" class="form-control form-control-lg" />
-                                    <label class="form-label" >Fecha de venta</label>
+                                    <label for="id_sale_details">Detalles de Venta</label>
+                                    <select multiple name="sale_details" class="form-select form-select-lg" id="id_sale_details" required>
+                                        {% for sale_detail in sale_details %}
+                                            <option value="{{ sale_detail.id }}">{{ sale_detail }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
-                                <div class="form-outline mb-4">
-                                    <input type="number" name="quantity_sold" step="0.01" required="" id="id_unit_price">
-                                    <label class="form-label">Cantidad</label>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <input type="number" name="subtotal" step="0.01" required="" id="id_unit_price">
-                                    <label class="form-label">Subtotal</label>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <input type="number" name="unit_price" step="0.01" required="" id="id_unit_price">
-                                    <label class="form-label">Precio unitario</label>
-                                </div>
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" style=" font-weight: bold;">Añadir</button>
+                                
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" style="font-weight: bold;">Añadir</button>
 
                             </div>
                         </div>
