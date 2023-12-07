@@ -25,12 +25,15 @@
                         <td class="text-black">{{ Client.name }}{{ Client.second_name }}{{ Client.three_name }}</td>
                         <td class="text-black">{{ Client.phone_number }}</td>
                         <td class="text-black">{{ Client.RFC }}</td>
-                        <td>
+                        <td style="text-align: center">
                             <!-- Agrega un formulario para enviar la solicitud de eliminación -->
                             <form method="post" action="{% url 'delete_client' Client.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
+                            <!-- Botón para editar la factura -->
+                            <a href="{% url 'edit_client' Client.id %}" class="btn btn-success btn-sm" style="margin-top: 1vh">Editar</a>
+
                         </td>
                     </tr>
                 {% endfor %}
