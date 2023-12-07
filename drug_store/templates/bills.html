@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4 text-white">Facturas</h2>
+
+        <!-- Botón para crear una nueva factura -->
+        <div class="text-center mb-4">
+            <a href="{% url 'create_bill' %}" class="btn btn-primary">Crear Factura</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped bg-light text-light">
+                <thead class="table-dark">
+                <tr>
+                    <th>Cliente RFC</th>
+                    <th>Detalles de Venta</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.rfc_client }}</td>
+                        <td>
+                            <ul>
+                                {% for detail in bill.products_purchased.all %}
+                                    <li>
+                                        Fecha de Venta: {{ detail.sale_date }}
+                                        Hora de Venta: {{ detail.sale_hour }}
+                                        Cantidad: {{ detail.quantity_sold }}
+                                        Precio unitario: {{ detail.unit_price }}
+                                        Subtotal: {{ detail.subtotal }}
+                                        Empleado: {{ detail.employee }}
+                                        Productos:
+                                        <ul>
+                                            {% for product in detail.product.all %}
+                                                <li>{{ product.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <!-- Botón para editar la factura -->
+                            <a href="{% url 'edit_bill' bill.id %}" class="btn btn-success btn-sm">Editar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
