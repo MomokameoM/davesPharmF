@@ -1,8 +1,41 @@
-{% extends "base.html" %} {% block content %}
-<ul>
-  {% for product in products %}
-  <li>{{ product.name }}</li>
-  <li>${{ product.unit_price }}</li>
-  {% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2 class="text-center mb-4 text-white">Lista de Productos</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped bg-light text-light">
+        <thead class="table-dark">
+          <tr>
+            <th>Nombre</th>
+            <th>Lote</th>
+            <th>Fecha de Compra</th>
+            <th>Fecha de Caducidad</th>
+            <th>Descripción</th>
+            <th>Genérico</th>
+            <th>Administración</th>
+            <th>Prescripción</th>
+            <th>Precio Unitario</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+            <tr>
+              <td>{{ product.name }}</td>
+              <td>{{ product.lot }}</td>
+              <td>{{ product.purchase_date }}</td>
+              <td>{{ product.expiration_date }}</td>
+              <td>{{ product.description }}</td>
+              <td>{% if product.generic %} Sí {% else %} No {% endif %}</td>
+              <td>{{ product.get_administration_display }}</td>
+              <td>{% if product.prescription %} Sí {% else %} No {% endif %}</td>
+              <td>${{ product.unit_price }}</td>
+              <td>{{ product.stock }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock content %}

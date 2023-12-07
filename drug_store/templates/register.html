@@ -1,5 +1,9 @@
-{% extends "base.html" %} {% block content %}
-<form method="POST" action="/products/">
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST" action="{% url 'signup' %}">
+  
+  {% csrf_token %}
   <section class="vh-100">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -11,20 +15,20 @@
               {% load static %}
               <img src="{% static 'login.png' %}" style="width: 40%; margin-bottom: 1vh">
               <div class="form-outline mb-4">
-                <input type="email" id="typeEmailX-2" name="username" class="form-control form-control-lg" title="Letras, digitos y @/./+/-/_." />
+                <input type="email" id="typeEmailX-2" name="username" class="form-control form-control-lg" title="Letras, dígitos y @/./+/-/_." />
                 <label class="form-label" for="typeEmailX-2">Nombre de usuario</label>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" title="Sin informacion personal, al menos 8 caracteres y no solo numeros" />
+                <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" title="Sin información personal, al menos 8 caracteres y no solo números" />
                 <label class="form-label" for="typePasswordX-2">Contraseña</label>
               </div>
-<div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-3" name="password" class="form-control form-control-lg" title="Repetir la contraseña"/>
-                <label class="form-label" for="typePasswordX-2">Confirmar contraseña</label>
-              </div>
 
-              <button class="btn btn-primary btn-lg btn-block" type="submit" style=" font-weight: bold;">Registrarse</button>
+              <div class="form-outline mb-4">
+                <input type="password" id="typePasswordX-3" name="confirm_password" class="form-control form-control-lg" title="Repetir la contraseña" />
+                <label class="form-label" for="typePasswordX-3">Confirmar contraseña</label>
+              </div>
+              <button class="btn btn-primary btn-lg btn-block" type="submit" style="font-weight: bold;">Registrarse</button>
 
             </div>
           </div>
@@ -32,6 +36,5 @@
       </div>
     </div>
   </section>
-  <button>Enviar</button>
 </form>
 {% endblock content %}

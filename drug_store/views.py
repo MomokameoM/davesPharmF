@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 from .models import (
     Product,
     Provideer,
@@ -23,11 +24,10 @@ def signout(request):
     logout(request)
     return redirect("home")
 
-
 def signin(request):
     if request.method == "GET":
-        return render(request, "login.html", {"form": AuthenticationForm})
-    else:
+        return render(request, "login.html")
+    elif request.method == "POST":
         user = authenticate(
             request,
             username=request.POST["username"],
@@ -36,39 +36,37 @@ def signin(request):
         if user is None:
             return render(
                 request,
-                "signin.html",
+                "login.html",
                 {
-                    "form": AuthenticationForm,
-                    "error": "Username or password is incorrect.",
+                    "error": "Nombre de usuario o contraseña incorrectos.",
                 },
             )
 
         login(request, user)
         return redirect("products")
 
-
 def signup(request):
     if request.method == "GET":
-        return render(request, "register.html", {"form": UserCreationForm})
-    else:
-        if request.POST["password1"] == request.POST["password2"]:
+        return render(request, "register.html")
+    elif request.method == "POST":
+        if request.POST["password"] == request.POST["confirm_password"]:
             try:
                 user = User.objects.create_user(
-                    request.POST["username"], password=request.POST["password1"]
+                    request.POST["username"], password=request.POST["password"]
                 )
                 user.save()
                 login(request, user)
-                return redirect("products")
+                return redirect("signin")
             except IntegrityError:
                 return render(
                     request,
                     "register.html",
-                    {"form": UserCreationForm, "error": "Username already exists."},
+                    {"error": "El nombre de usuario ya existe."},
                 )
         return render(
             request,
             "register.html",
-            {"form": UserCreationForm, "error": "Passwords did not match."},
+            {"error": "Las contraseñas no coinciden."},
         )
 
 @login_required
