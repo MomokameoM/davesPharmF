@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4 text-white">Facturas</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped bg-light text-light">
+                <thead class="table-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Subtotal</th>
+                    <th>Empleado ID</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for SaleDetails in bill %}
+                    <tr>
+                        <td>{{ SaleDetails.sale_date }}</td>
+                        <td>{{ SaleDetails.sale_hour }}</td>
+                        <td>{{ SaleDetails.product }}</td>
+                        <td>{{ SaleDetails.quantity_sold }}</td>
+                        <td>{{ SaleDetails.unit_price }}</td>
+                        <td>{{ SaleDetails.subtotal }}</td>
+                        <td>{{ SaleDetails.employee }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
