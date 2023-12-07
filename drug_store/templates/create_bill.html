@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <section class="vh-100">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                            <div class="card-body p-5 text-center" style="font-weight: bold;">
+
+                                <h3 class="mb-5" style="font-size: 5vh;font-weight: bold;">Añadir factura</h3>
+                                <div class="form-outline mb-4">
+                                    <input  name="rfc_client_ic" class="form-control form-control-lg" />
+                                    <label class="form-label" >RFC Cliente</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input  name="sale_date" class="form-control form-control-lg" />
+                                    <label class="form-label" >Fecha de venta</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="number" name="quantity_sold" step="0.01" required="" id="id_unit_price">
+                                    <label class="form-label">Cantidad</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="number" name="subtotal" step="0.01" required="" id="id_unit_price">
+                                    <label class="form-label">Subtotal</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="number" name="unit_price" step="0.01" required="" id="id_unit_price">
+                                    <label class="form-label">Precio unitario</label>
+                                </div>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" style=" font-weight: bold;">Añadir</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+{% endblock content %}
